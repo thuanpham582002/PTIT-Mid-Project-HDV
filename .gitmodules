@@ -1,3 +1,15 @@
 [submodule "Car_Rent_Management_Gateway"]
 	path = Car_Rent_Management_Gateway
 	url = https://github.com/thuanpham582002/Car_Rent_Management_Gateway.git
+[submodule "Car_Rent_Management_Server"]
+    path = Car_Rent_Management_Server
+    url = https://github.com/thuanpham582002/Car_Rent_Management_Server.git
+[submodule "CustomerManagementService"]
+    path = CustomerManagementService
+    url = https://github.com/thuanpham582002/CustomerManagementService
+[submodule "CarManagementService"]
+    path = CarManagementService
+    url = https://github.com/thuanpham582002/Car_Management_Service
+[submodule "ContractManagementService"]
+    path = ContractManagementService
+    url = https://github.com/thuanpham582002/Contract_Management
