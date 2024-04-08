@@ -1,0 +1,6 @@
+version: '1.0'
+services:
+  customermanagementservice:
+    image: noroom113/dockerhub:customermanagementservice
+    ports:
+      - "6868:6868"
