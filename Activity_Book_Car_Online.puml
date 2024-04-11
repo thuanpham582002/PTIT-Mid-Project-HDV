@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+|User|
+start
+    :Login Success;
+|UI|
+    :Show Dashboard;
+|User|
+    :Choose a car for see details;
+|UI|
+    :Show Car Details;
+|User|
+    :Click on Book Now;
+|UI|
+    :Show Booking Form;
+|User|
+    :Fill the form;
+    split
+        repeat
+        :Choose time car rental;
+        :Send validate to server;
+|Server|
+        :Check the availability;
+        :Send response to client;
+|User|
+        if (Available) then (Yes)
+        else (No)
+            :Show error message;
+        endif
+        repeat while (Available) is (No)
+    split again
+        :Fill the name;
+    split again
+        :Fill the email;
+    split again
+        :Fill the phone number;
+    split again
+        :Fill the address to receive the car;
+    split again
+        :Fill Driver's License;
+    end split
+    :Click on Submit;
+|Server|
+    :Calculate the total price;
+    :Send response to client;
+|UI|
+    :Show the total price and explainition;
+|User|
+    :Pay the total price and deposit;
+stop
+
+@enduml
