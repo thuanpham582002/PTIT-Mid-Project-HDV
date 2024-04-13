@@ -19,3 +19,6 @@
 [submodule "Contract_Management"]
 	path = Contract_Management
 	url = https://github.com/thuanpham582002/Contract_Management
+[submodule "RentCarServerConfig"]
+	path = RentCarServerConfig
+	url = https://github.com/thuanpham582002/RentCarServerConfig.git
