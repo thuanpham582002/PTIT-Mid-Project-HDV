@@ -1,27 +1,39 @@
 version: '1.0'
 services:
-  customermanagementservice:
-    image: noroom113/customermanagementservice:latest
-    ports:
-      - "6868:6868"
-    depends_on:
-      - eurekaserver
-
-  carmanagementservice:
-    image: noroom113/carmanagementservice:latest
-    ports:
-      - "6869:6869"
-    depends_on:
-      - eurekaserver
-
   eurekaserver:
     image: noroom113/carrentmanagementserver:latest
     ports:
       - "8761:8761"
+    expose:
+      - 8761
 
   zuulserver:
     image: noroom113/carrentmanagementgateway:latest
     ports:
       - "8762:8762"
+    expose:
+      - 8762
     depends_on:
       - eurekaserver
+
+  customermanagementservice:
+    image: noroom113/customermanagementservice:latest
+    ports:
+      - "6868:6868"
+    expose:
+      - 6868
+    depends_on:
+      - eurekaserver
+      - zuulserver
+
+  carmanagementservice:
+    image: noroom113/carmanagementservice:latest
+    ports:
+      - "6869:6869"
+    expose:
+      - 6869
+    depends_on:
+      - eurekaserver
+      - zuulserver
+networks:
+  default:

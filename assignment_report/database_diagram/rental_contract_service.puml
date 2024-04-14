@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/class-diagram
+entity "RentalContract" as rental_contracts {
+    * id : long <<generated>>
+    + start_date : datetime
+    + end_date : datetime
+    + created_at : datetime
+    + updated_at : datetime
+    + user_id <<FK>>
+    + car_id <<FK>>
+    + staff_id <<FK>>
+}
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+autonumber
+participant Staff
+participant User
+participant UI
+participant Server
+
+User -> Staff: Request for rent a car
+Staff -> UI: Click Home Page
+UI -> UI: Show Home Page
+loop until user approves for booking a car
+    Staff -> User: Ask User to choose a car
+    User -> UI: Choose a car to see details
+    UI -> Server: Get Car Details
+    Server -> UI: Response (Car Details)
+    UI -> UI: Show Car Details
+    Staff -> User: Ask User to book the car
+    alt User wants to book
+        User -> UI: Click on Book Now
+    else
+        Staff -> UI: Click on Home Page
+    end
+end
+UI -> Staff: Show Booking Form
+Staff -> User: Ask User to fill the form
+
+loop until form fields are valid
+    Staff -> UI: Fill the form (Name, address, email, phone number, start and end time)
+    UI -> UI: Validate form fields (Name, address, email, phone number)
+    alt Invalid
+        UI -> UI: Show error message
+    end
+    UI -> Server: Validate time (start and end time)
+    Server -> UI: Response (Valid or Invalid)
+    alt Invalid
+        UI -> UI: Show error message
+    end
+    alt Fields Valid
+        UI -> UI: Enable Payment Button
+    end
+end
+Staff -> UI: Click payment
+Staff -> User: Tell User to the payment
+User -> Server: Pay for rent car
+UI -> Server: Process Payment
+Server -> UI: Response (Success or Failure)
+alt Payment Success
+    UI -> UI: Show Success Message
+else
+    UI -> UI: Show Failure Message
+end
+@enduml

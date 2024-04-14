@@ -10,17 +10,17 @@ start
     if (Has Account) then (yes)
         partition Login {
             repeat
-                :Enter `Can cuoc cong dan`;
+                :Enter `identity cards id`;
                 :Enter `Password`;
                 :Click Login;
 |Server|
-                    :Send request to server;
-                    :Validate data;
-                    if (Data is valid) then (yes)
-                        :Check data;
-                    else (no)
-                    endif
-                    :Send response to client;
+                :Send request to server;
+                :Validate data;
+                if (Data is valid) then (yes)
+                    :Check data;
+                else (no)
+                endif
+                :Send response to client;
 |User|
                 if (Login Success) then (yes)
                     else (no)
@@ -32,15 +32,9 @@ start
         partition Register {
             repeat
                 :Click Register;
-                repeat
-                    if (Provide Data) is (take a picture) then
-                        :Take a picture;
-                    else (Using available photos)
-                        :Choose photo from gallery;
-                    endif
-                     :Validate photo;
-                repeat while (Photo is valid) is (false)
-                -> true;
+                :Enter `identity cards id`;
+                :Enter `email`;
+                :Enter `Name`;
                 :Enter `Password`;
                 :Enter `Confirm Password`;
                 :Click Register;
@@ -58,10 +52,10 @@ start
                     :Show error message;
                     endif
             repeat while (Register Success?) is (false)
+|UI|
             -> true;
         }
     endif
 :Redirect to Home page;
-|UI|
 stop
 @enduml

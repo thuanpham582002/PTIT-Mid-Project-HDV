@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+|Staff|
+start
+repeat
+  :login;
+|UI|
+  if (login success?) then (yes)
+    :redirect to home page;
+  else (no)
+    :show error message;
+  endif
+repeat while (not login success?) is (no)
+-> (true)
+:login;
+|UI|
+:redirect to home page;
+|Staff|
+    :Choose analysis Usr by Revenue;
+|Server|
+    :Get data Usr by Revenue;
+    :Response data Usr by Revenue;
+|UI|
+    :Show analysis Usr by Revenue;
+stop
+@enduml

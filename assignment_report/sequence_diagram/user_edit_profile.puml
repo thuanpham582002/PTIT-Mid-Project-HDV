@@ -1,0 +1,26 @@
+@startuml
+' Define participants
+participant User
+participant UI
+participant Server
+
+' Define objects
+User -> UI: Click Edit Profile
+UI -> User: Render edit profile page
+User -> UI: Enter new profile information
+User -> UI: Click Save Changes
+UI -> UI: Validate input fields
+alt Data is valid
+    UI -> Server: Send request to server
+    Server -> Server: Update user profile data
+    Server -> UI: Send response to client
+    alt Data is saved successfully
+        UI -> UI: Show success message
+    else Data is not saved
+        UI -> UI: Show error message
+    end
+else Data is not valid
+    UI -> UI: Show error message
+end
+UI -> UI: Redirect to Profile page
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+
+class "Car" as cars {
+    * id : long <<generated>>
+    + license_plate : string <<unique>>
+    + brand : string
+    + model : string
+    + is_available : boolean
+    + color : string
+    + created_at : datetime
+    + updated_at : datetime
+    --
+    + car_package_id <<FK>>
+    + car_parameters_id <<FK>>
+}
+
+class "CarPackage" as car_packages {
+    * id : long <<generated>>
+    + packageName : string
+    + pricePerHour : int
+    + created_at : datetime
+    + updated_at : datetime
+}
+
+class "CarParameters" as car_parameters {
+    * id : long <<generated>>
+    + number_of_doors : int
+    + number_of_seats : int
+    + fuel_type_id : int
+    + gear_box_id : int
+    + is_air_conditioning_available : boolean
+}
+
+cars o-- car_packages
+cars o-- car_parameters
+
+@enduml
