@@ -1,3 +1,7 @@
+### Build all file Jar
+```bash
+./gradlew buildAllProjects
+```
 ### Add submodule
 ```bash
 git submodule add

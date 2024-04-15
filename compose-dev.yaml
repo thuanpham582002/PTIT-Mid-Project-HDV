@@ -2,16 +2,16 @@ version: '1.0'
 services:
   config-server:
     build:
-        context: RentCarServerConfig
+        context: Car_Rental-Server_Config
         dockerfile: Dockerfile
     ports:
       - "8888:8888"
     expose:
       - 8888
 
-  eurekaserver:
+  eureka-server:
     build:
-      context: Car_Rent_Management_Server
+      context: Car_Rental-Eureka_Server
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
@@ -19,40 +19,41 @@ services:
       - 8761
     depends_on:
       - config-server
+    environment:
+      EUREKA_PORT: 8761
+      SPRING_PROFILES_ACTIVE: docker_dev
 
-  zuulserver:
-    build:
-      context: Car_Rent_Management_Gateway
-      dockerfile: Dockerfile
-    ports:
-      - "8762:8762"
-    expose:
-      - 8762
-    depends_on:
-      - eurekaserver
-
-  customermanagementservice:
-    build:
-      context: CustomerManagementService
-      dockerfile: Dockerfile
-    ports:
-      - "6868:6868"
-    expose:
-      - 6868
-    depends_on:
-      - eurekaserver
-      - zuulserver
-
-  carmanagementservice:
-    build:
-      context: Car_Management_Service
-      dockerfile: Dockerfile
-    ports:
-      - "6869:6869"
-    expose:
-      - 6869
-    depends_on:
-      - eurekaserver
-      - zuulserver
-networks:
-  default:
+#  gateway-service:
+#    build:
+#      context: Car_Rental-Gateway_Service
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8762:8762"
+#    expose:
+#      - 8762
+#    depends_on:
+#      - eureka-server
+#
+#  user-service:
+#    build:
+#      context: Car_Rental-User_Service
+#      dockerfile: Dockerfile
+#    ports:
+#      - "6868:6868"
+#    expose:
+#      - 6868
+#    depends_on:
+#      - eureka-server
+#      - gateway-service
+#
+#  car-service:
+#    build:
+#      context: Car_Rental-Car_Service
+#      dockerfile: Dockerfile
+#    ports:
+#      - "6869:6869"
+#    expose:
+#      - 6869
+#    depends_on:
+#      - eureka-server
+#      - gateway-service
