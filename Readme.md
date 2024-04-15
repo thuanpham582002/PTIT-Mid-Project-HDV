@@ -1,3 +1,7 @@
+### Add submodule
+```bash
+git submodule add
+```
 ### Update submodules
 ```bash
 git submodule update --remote --merge
