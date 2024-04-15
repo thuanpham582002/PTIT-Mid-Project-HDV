@@ -1,4 +1,4 @@
-@startuml
+`@startuml
 interface repository.CarParametersRepository {
 }
 class service.CarService {
@@ -98,4 +98,4 @@ controller.CarController --> service.CarService
 
 CarParameters o-- constant.FuelType
 CarParameters o-- constant.GearBoxType
-@enduml
+@enduml`

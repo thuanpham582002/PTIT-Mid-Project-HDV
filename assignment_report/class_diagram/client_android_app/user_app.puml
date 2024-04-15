@@ -1,27 +1,261 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+class entities.User {
+- Long id
+- String name
+- String email
+- String userName
+- String password
+- List<Accessibility> accessibilitys
+- IndentityCard indentityCard
+- DriverLicense? driverLicense
+- Date created_at
+- Date updated_at
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class entities.Car {
+- Long id
+- String registrationNr
+- String brand
+- String model
+- Boolean isAvailable
+- CarPackage carPackage
+- CarParameters carParameters
 }
+
+class entities.RentalContract {
+- Long id
+- Date startDate
+- Date endDate
+- Long carId
+- Long customerId
+- Long? staffId
+}
+
+class entities.DriverLicense {
+- Long id
+- String number
+- String imageBase64
+- Date created_at
+- Date updated_at
+}
+class entities.IndentityCard {
+- Long id
+- String number
+- String imageBase64
+- Date created_at
+- Date updated_at
+}
+
+class entities.CarParameters {
+- Long id
+- FuelType fuelType
+- GearBoxType gearBoxType
+- Integer numberOfDoors
+- Integer numberOfSeats
+- Boolean isAirConditioningAvailable
+- Car car
+}
+
+enum constant.FuelType {
++  PETROL
++  DIESEL
++  LPG
++  ELECTRIC
+}
+
+enum constant.GearBoxType {
++  MANUAL
++  AUTOMATIC
+}
+
+class entities.CarPackage {
+- Long id
+- String packageName
+- Integer pricePerHour
+}
+class view.home.HomeViewModel{
+- StateFlow<List<Car>> cars
+- CarRepository carRepository
++ StateFlow<List<Car>> getCars()
+}
+
+class view.home.HomeFragment{
+- HomeViewModel homeViewModel
++ onCreateView(LayoutInflater,ViewGroup,Bundle):View
+}
+
+class view.carDetails.CarDetailsViewModel{
+- StateFlow<Car> car
+- CarRepository carRepository
++ StateFlow<Car> getCar()
+}
+
+class view.carDetails.CarDetailsFragment{
+- CarDetailsViewModel carDetailsViewModel
++ onCreateView(LayoutInflater,ViewGroup,Bundle):View
+}
+
+class view.profile.ProfileViewModel{
+- StateFlow<User> user
+- UserRepository userRepository
++ StateFlow<User> getUser()
+}
+
+class view.profile.ProfileFragment{
+- ProfileViewModel profileViewModel
++ onCreateView(LayoutInflater,ViewGroup,Bundle):View
+}
+
+
+class view.login.LoginViewModel{
+- UserRepository userRepository
++ void login(String,String)
+}
+class view.login.LoginFragment{
+- LoginViewModel loginViewModel
++ onCreateView(LayoutInflater,ViewGroup,Bundle):View
+}
+
+class view.registration.RegistrationViewModel{
+- UserRepository userRepository
++ void registerUser(User)
+}
+
+class view.registration.RegistrationFragment{
+- RegistrationViewModel registrationViewModel
++ onCreateView(LayoutInflater,ViewGroup,Bundle):View
+}
+
+
+class view.rentCar.RentCarViewModel{
+- StateFlow<List<RentalContract>> rentalContracts
+- RentalContractRepository rentalContractRepository
++ StateFlow<List<RentalContract>> getRentalContracts()
++ void insert(RentalContract)
++ void delete(RentalContract)
++ void update(RentalContract)
+}
+
+class view.rentCar.RentCarFragment{
+- RentCarViewModel rentCarViewModel
++ onCreateView(LayoutInflater,ViewGroup,Bundle):View
+}
+
+class data.local.RentalContractDao {
+~ StateFlow<List<RentalContract>> getRentalContracts()
+~ void insert(RentalContract)
+~ void delete(RentalContract)
+~ void update(RentalContract)
+}
+
+class data.remote.RentalContractApi {
+~ List<RentalContract> getRentalContracts()
+~ void insert(RentalContract)
+~ void delete(RentalContract)
+~ void update(RentalContract)
+}
+
+class data.local.UserDao {
+~ StateFlow<User> getUser()
+~ void insert(User)
+~ void delete(User)
+~ void update(User)
+}
+
+class data.local.CarDao {
+~ StateFlow<List<Car>> getCars()
+~ void insert(Car)
+~ void delete(Car)
+~ void update(Car)
+}
+
+abstract class data.database.AppDatabase {
+~ abstract UserDao userDao()
+~ abstract CarDao carDao()
+}
+
+interface data.remote.UserApi {
+~ User getUser()
+~ void insert(User)
+~ void delete(User)
+~ void update(User)
+}
+
+interface data.remote.CarApi {
+~ List<Car> getCars()
+~ void insert(Car)
+~ void delete(Car)
+~ void update(Car)
+}
+
+class data.repository.UserRepository {
+- UserDao userDao
+- UserApi userApi
++ StateFlow<User> getUser()
++ void insert(User)
++ void delete(User)
++ void update(User)
+}
+
+class data.repository.CarRepository {
+- CarDao carDao
+- CarApi carApi
++ StateFlow<List<Car>> getCars()
++ void insert(Car)
++ void delete(Car)
++ void update(Car)
+}
+
+class data.repository.RentalContractRepository {
+- RentalContractDao rentalContractDao
++ StateFlow<List<RentalContract>> getRentalContracts()
++ void insert(RentalContract)
++ void delete(RentalContract)
++ void update(RentalContract)
+}
+
+UserRepository -up-> UserDao
+UserRepository -up-> UserApi
+
+CarRepository -up-> CarDao
+CarRepository -up-> CarApi
+
+RentalContractRepository -up-> RentalContractDao
+RentalContractRepository -up-> RentalContractApi
+
+User -up-> IndentityCard
+User -up-> DriverLicense
+
+Car -up-> CarParameters
+Car -up-> CarPackage
+
+CarParameters -up-> FuelType
+CarParameters -up-> GearBoxType
+
+view.home.HomeViewModel -up-> CarRepository
+view.carDetails.CarDetailsViewModel -up-> CarRepository
+view.profile.ProfileViewModel -up-> UserRepository
+view.login.LoginViewModel -up-> UserRepository
+view.registration.RegistrationViewModel -up-> UserRepository
+view.rentCar.RentCarViewModel -up-> RentalContractRepository
+
+view.home.HomeFragment -up-> HomeViewModel
+view.carDetails.CarDetailsFragment -up-> CarDetailsViewModel
+view.profile.ProfileFragment -up-> ProfileViewModel
+view.login.LoginFragment -up-> LoginViewModel
+view.registration.RegistrationFragment -up-> RegistrationViewModel
+view.rentCar.RentCarFragment -up-> RentCarViewModel
+
+data.local.RentalContractDao -up-> data.database.AppDatabase
+data.local.UserDao -up-> data.database.AppDatabase
+data.local.CarDao -up-> data.database.AppDatabase
+
+entities.Car -down-> CarDao
+entities.User -down-> UserDao
+entities.RentalContract -down-> RentalContractDao
+
+
 
 @enduml
