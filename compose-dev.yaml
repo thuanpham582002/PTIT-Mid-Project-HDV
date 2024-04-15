@@ -1,4 +1,5 @@
 version: '1.0'
+
 services:
   config-server:
     build:
@@ -6,8 +7,15 @@ services:
         dockerfile: Dockerfile
     ports:
       - "8888:8888"
-    expose:
-      - 8888
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      SPRING_PROFILES_ACTIVE: native
 
   eureka-server:
     build:
@@ -15,45 +23,89 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8761:8761"
-    expose:
-      - 8761
     depends_on:
-      - config-server
+      config-server:
+        condition: service_healthy
+    networks:
+      - spring-cloud-network
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
     environment:
       EUREKA_PORT: 8761
       SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
 
-#  gateway-service:
-#    build:
-#      context: Car_Rental-Gateway_Service
-#      dockerfile: Dockerfile
-#    ports:
-#      - "8762:8762"
-#    expose:
-#      - 8762
-#    depends_on:
-#      - eureka-server
-#
-#  user-service:
-#    build:
-#      context: Car_Rental-User_Service
-#      dockerfile: Dockerfile
-#    ports:
-#      - "6868:6868"
-#    expose:
-#      - 6868
-#    depends_on:
-#      - eureka-server
-#      - gateway-service
-#
-#  car-service:
-#    build:
-#      context: Car_Rental-Car_Service
-#      dockerfile: Dockerfile
-#    ports:
-#      - "6869:6869"
-#    expose:
-#      - 6869
-#    depends_on:
-#      - eureka-server
-#      - gateway-service
+  gateway-service:
+    build:
+      context: Car_Rental-Gateway_Service
+      dockerfile: Dockerfile
+    ports:
+      - "8762:8762"
+    depends_on:
+      - eureka-server
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+    networks:
+      - spring-cloud-network
+    environment:
+        GATEWAY_SERVICE_PORT: 8762
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+        SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+        SPRING_PROFILES_ACTIVE: docker_dev
+
+  user-service:
+    build:
+      context: Car_Rental-User_Service
+      dockerfile: Dockerfile
+    ports:
+      - "6868:6868"
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:6868/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+      - gateway-service
+    environment:
+        USER_SERVICE_PORT: 6868
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+        SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+        SPRING_PROFILES_ACTIVE: docker_dev
+
+  car-service:
+    build:
+      context: Car_Rental-Car_Service
+      dockerfile: Dockerfile
+    ports:
+      - "6869:6869"
+    depends_on:
+      - eureka-server
+      - gateway-service
+    networks:
+      - spring-cloud-network
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:6869/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+    environment:
+        CAR_SERVICE_PORT: 6869
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+        SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+        SPRING_PROFILES_ACTIVE: docker_dev
+
+networks:
+  spring-cloud-network:
+    name: spring-cloud-network
+    driver: bridge
