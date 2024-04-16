@@ -40,27 +40,6 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_HOSTNAME: eureka-server
 
-  gateway-service:
-    build:
-      context: Car_Rental-Gateway_Service
-      dockerfile: Dockerfile
-    ports:
-      - "8762:8762"
-    depends_on:
-      - eureka-server
-    healthcheck:
-        test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
-        interval: 30s
-        timeout: 10s
-        retries: 3
-    networks:
-      - spring-cloud-network
-    environment:
-        GATEWAY_SERVICE_PORT: 8762
-        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-        SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-        SPRING_PROFILES_ACTIVE: docker_dev
-
   user-service:
     build:
       context: Car_Rental-User_Service
@@ -76,7 +55,6 @@ services:
       - spring-cloud-network
     depends_on:
       - eureka-server
-      - gateway-service
     environment:
         USER_SERVICE_PORT: 6868
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -91,7 +69,6 @@ services:
       - "6869:6869"
     depends_on:
       - eureka-server
-      - gateway-service
     networks:
       - spring-cloud-network
     healthcheck:
@@ -104,6 +81,32 @@ services:
         EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
         SPRING_CLOUD_CONFIG_URI: http://config-server:8888
         SPRING_PROFILES_ACTIVE: docker_dev
+
+  gateway-service:
+    build:
+      context: Car_Rental-Gateway_Service
+      dockerfile: Dockerfile
+    ports:
+      - "8762:8762"
+    depends_on:
+      - config-server
+      - eureka-server
+      - user-service
+      - car-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
+    environment:
+      GATEWAY_SERVICE_PORT: 8762
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+      USER_SERVICE_URL: http://user-service:6868
+      CAR_SERVICE_URL: http://car-service:6869
 
 networks:
   spring-cloud-network:
