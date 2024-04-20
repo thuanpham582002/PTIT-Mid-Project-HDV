@@ -16,3 +16,6 @@
 [submodule "Car_Rental-Server_Config"]
 	path = Car_Rental-Server_Config
 	url = https://github.com/thuanpham582002/Car_Rental-Server_Config
+[submodule "Car_Rental-Auth_Service"]
+	path = Car_Rental-Auth_Service
+	url = https://github.com/thuanpham582002/Car_Rental-Auth_Service
