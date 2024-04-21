@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Car_Rental-Auth_Service" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Car_Rental-Car_Service" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Car_Rental-Contract_Service" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Car_Rental-Eureka_Server" vcs="Git" />

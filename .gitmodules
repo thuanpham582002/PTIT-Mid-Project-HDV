@@ -19,3 +19,6 @@
 [submodule "Car_Rental-Auth_Service"]
 	path = Car_Rental-Auth_Service
 	url = https://github.com/thuanpham582002/Car_Rental-Auth_Service
+[submodule "accessibility-service"]
+	path = accessibility-service
+	url = https://github.com/thuanpham582002/accessibility-service

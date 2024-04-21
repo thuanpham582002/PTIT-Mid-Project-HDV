@@ -40,6 +40,27 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_HOSTNAME: eureka-server
 
+  accessibility-service:
+    build:
+      context: accessibility-service
+      dockerfile: Dockerfile
+    ports:
+      - "6871:6871"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6871/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+    environment:
+      ACCESSIBILITY_SERVICE_PORT: 6871
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
   user-service:
     build:
       context: Car_Rental-User_Service
@@ -115,6 +136,7 @@ services:
       - user-service
       - car-service
       - contract-service
+      - accessibility-service
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
       interval: 30s

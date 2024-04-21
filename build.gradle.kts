@@ -31,7 +31,8 @@ tasks.register("buildAllProjects") {
         "./Car_Rental-Eureka_Server",
         "./Car_Rental-Gateway_Service",
         "./Car_Rental-Server_Config",
-        "./Car_Rental-User_Service"
+        "./Car_Rental-User_Service",
+        "./accessibility-service"
     )
 
     // Define action to build JAR for each project
