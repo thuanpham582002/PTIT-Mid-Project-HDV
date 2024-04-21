@@ -75,6 +75,7 @@ services:
     networks:
       - spring-cloud-network
     depends_on:
+      - accessibility-service
       - eureka-server
     environment:
         USER_SERVICE_PORT: 6868
@@ -89,6 +90,7 @@ services:
     ports:
       - "6869:6869"
     depends_on:
+      - accessibility-service
       - eureka-server
     networks:
       - spring-cloud-network
@@ -110,6 +112,7 @@ services:
     ports:
       - "6870:6870"
     depends_on:
+      - accessibility-service
       - eureka-server
     networks:
       - spring-cloud-network
@@ -151,6 +154,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker_dev
       USER_SERVICE_URL: http://user-service:6868
       CAR_SERVICE_URL: http://car-service:6869
+      ACCESSIBILITY_SERVICE_URL: http://accessibility-service:6871
 
 networks:
   spring-cloud-network:

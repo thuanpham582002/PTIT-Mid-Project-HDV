@@ -12,6 +12,14 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Car_Rental-Auth_Service" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/Car_Rental-Auth_Service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/Car_Rental-Car_Service" />
         <option name="modules">
           <set>
@@ -56,6 +64,14 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/Car_Rental-User_Service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/accessibility-service" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/accessibility-service" />
           </set>
         </option>
       </GradleProjectSettings>
