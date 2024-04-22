@@ -32,7 +32,8 @@ tasks.register("buildAllProjects") {
         "./Car_Rental-Gateway_Service",
         "./Car_Rental-Server_Config",
         "./Car_Rental-User_Service",
-        "./accessibility-service"
+        "./accessibility-service",
+        "./Car_Rental-Auth_Service",
     )
 
     // Define action to build JAR for each project

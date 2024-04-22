@@ -61,6 +61,29 @@ services:
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SPRING_PROFILES_ACTIVE: docker_dev
 
+  auth-service:
+    build:
+      context:
+        Car_Rental-Auth_Service
+      dockerfile: Dockerfile
+    ports:
+      - "6872:6872"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6872/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+    environment:
+      AUTH_SERVICE_PORT: 6872
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
+
   user-service:
     build:
       context: Car_Rental-User_Service
@@ -140,6 +163,7 @@ services:
       - car-service
       - contract-service
       - accessibility-service
+      - auth-service
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
       interval: 30s
@@ -152,9 +176,6 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SPRING_PROFILES_ACTIVE: docker_dev
-      USER_SERVICE_URL: http://user-service:6868
-      CAR_SERVICE_URL: http://car-service:6869
-      ACCESSIBILITY_SERVICE_URL: http://accessibility-service:6871
 
 networks:
   spring-cloud-network:
