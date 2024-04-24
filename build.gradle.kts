@@ -54,7 +54,7 @@ tasks.register("buildAllProjects") {
 
 tasks.register("buildAllProjectAndRunDockerCompose") {
     group = "custom"
-    description = "Build JAR for all projects and run docker-compose"
+    description = "Build JAR for all projects and run docker compose"
 
     dependsOn("buildAllProjects")
 
@@ -62,6 +62,20 @@ tasks.register("buildAllProjectAndRunDockerCompose") {
         exec {
             workingDir = file("./")
             commandLine = listOf("docker-compose", "-f", "compose-dev.yaml", "up", "--build")
+        }
+    }
+}
+
+tasks.register("buildAllProjectsAndPushDockerImage") {
+    group = "custom"
+    description = "Build JAR for all projects and push docker image"
+
+    dependsOn("buildAllProjects")
+
+    doLast {
+        exec {
+            workingDir = file("./")
+            commandLine = listOf("docker-compose", "-f", "compose-dev.yaml", "build", "--push")
         }
     }
 }

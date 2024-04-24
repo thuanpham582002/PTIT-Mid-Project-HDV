@@ -6,6 +6,10 @@
 ```bash
 ./gradlew buildAllProjectsAndRunDockerCompose
 ```
+### Build all file Jar and build docker image then push to docker hub
+```bash
+./gradlew buildAllProjectsAndPushDockerImage
+```
 ### Add submodule
 ```bash
 git submodule add
