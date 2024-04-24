@@ -10,7 +10,13 @@ git submodule add
 ```bash
 git submodule update --remote --merge
 ```
-`only available in git version 1.8.2 or later`
+### Push image to docker hub
+```bash
+$ docker login
+$ docker-compose build --pull
+$ docker-compose push
+$ docker logout
+```
 
 ### Require for report
 Yêu cầu nội dung file báo cáo:
