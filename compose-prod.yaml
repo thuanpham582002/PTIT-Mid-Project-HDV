@@ -1,39 +1,166 @@
- version: '1.0'
+version: '2.2'
+
 services:
-  eurekaserver:
-    image: noroom113/carrentmanagementserver:latest
+  config-server:
+    image: noroom113/car-rental-config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+
+  eureka-server:
+    image: noroom113/car-rental-eureka-server
     ports:
       - "8761:8761"
-    expose:
-      - 8761
-
-  zuulserver:
-    image: noroom113/carrentmanagementgateway:latest
-    ports:
-      - "8762:8762"
-    expose:
-      - 8762
     depends_on:
-      - eurekaserver
+      config-server:
+        condition: service_healthy
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      EUREKA_PORT: 8761
+      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
 
-  customermanagementservice:
-    image: noroom113/customermanagementservice:latest
+  accessibility-service:
+    image: noroom113/car-rental-accessibility-service
+    ports:
+      - "6871:6871"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6871/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+    environment:
+      ACCESSIBILITY_SERVICE_PORT: 6871
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
+  auth-service:
+    image: noroom113/car-rental-auth-service
+    ports:
+      - "6872:6872"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6872/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - eureka-server
+    environment:
+      AUTH_SERVICE_PORT: 6872
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
+
+  user-service:
+    image: noroom113/car-rental-user-service
     ports:
       - "6868:6868"
-    expose:
-      - 6868
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6868/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
     depends_on:
-      - eurekaserver
-      - zuulserver
+      - accessibility-service
+      - eureka-server
+    environment:
+      USER_SERVICE_PORT: 6868
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
 
-  carmanagementservice:
-    image: noroom113/carmanagementservice:latest
+  car-service:
+    image: noroom113/car-rental-car-service
     ports:
       - "6869:6869"
-    expose:
-      - 6869
     depends_on:
-      - eurekaserver
-      - zuulserver
+      - accessibility-service
+      - eureka-server
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6869/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      CAR_SERVICE_PORT: 6869
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
+  contract-service:
+    image: noroom113/car-rental-contract-service
+    ports:
+      - "6870:6870"
+    depends_on:
+      - accessibility-service
+      - eureka-server
+    networks:
+      - spring-cloud-network
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6870/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      CONTRACT_SERVICE_PORT: 6870
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
+  gateway-service:
+    image: noroom113/car-rental-gateway-service
+    ports:
+      - "8762:5120"
+    depends_on:
+      - config-server
+      - eureka-server
+      - user-service
+      - car-service
+      - contract-service
+      - accessibility-service
+      - auth-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - spring-cloud-network
+    environment:
+      GATEWAY_SERVICE_PORT: 8762
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      SPRING_PROFILES_ACTIVE: docker_dev
+
 networks:
-  default:
+  spring-cloud-network:
+    name: spring-cloud-network
+    driver: bridge
