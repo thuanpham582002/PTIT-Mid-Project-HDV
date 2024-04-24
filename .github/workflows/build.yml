@@ -27,7 +27,7 @@ jobs:
           echo "Current directory: $GITHUB_WORKSPACE"
       - name: Push Docker Hub
         run: |
-          chmod +x gradlew
+          chmod 777 gradlew
           bash ./gradlew buildAllProjectsAndPushDockerImage
 
   deploy:
