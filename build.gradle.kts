@@ -77,7 +77,7 @@ tasks.register("buildAllProjectsAndPushDockerImage") {
     doLast {
         exec {
             workingDir = file("./")
-            commandLine = listOf("docker-compose", "-f", "compose-dev.yaml", "build", "--push")
+            commandLine = listOf("docker compose", "-f", "compose-dev.yaml", "build", "--push")
         }
     }
 }
