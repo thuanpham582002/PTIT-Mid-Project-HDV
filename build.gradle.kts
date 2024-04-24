@@ -41,6 +41,13 @@ tasks.register("buildAllProjects") {
         projectDirs.forEach { projectDir ->
             val dir = file(projectDir)
             if (dir.exists() && dir.isDirectory) {
+                println("Building JAR for project in directory $dir")
+                println("Running chmod +x gradlew")
+                exec{
+                    workingDir = dir
+                    commandLine = listOf("chmod", "+x", "gradlew")
+                }
+                println("Running ./gradlew bootJar $dir")
                 exec {
                     workingDir = dir
                     commandLine = listOf("./gradlew", "bootJar")
