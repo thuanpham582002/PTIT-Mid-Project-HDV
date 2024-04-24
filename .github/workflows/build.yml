@@ -35,6 +35,8 @@ jobs:
       - name: Push Docker Hub
         run: |
           pwd
+      - name: Update submodules
+        run: |
           git submodule update --remote --merge
 #          chmod +x gradlew
 #          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
