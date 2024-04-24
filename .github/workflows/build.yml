@@ -35,6 +35,7 @@ jobs:
       - name: Push Docker Hub
         run: |
           pwd
+          gradle wrapper
           ./gradlew buildAllProjectsAndPushDockerImage --info --stacktrace
 
   deploy:
