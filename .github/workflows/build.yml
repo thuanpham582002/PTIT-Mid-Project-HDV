@@ -35,6 +35,7 @@ jobs:
       - name: Push Docker Hub
         run: |
           pwd
+          ./gradlew build
           ./gradlew buildAllProjectsAndPushDockerImage
 
   deploy:
