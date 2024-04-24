@@ -52,7 +52,7 @@ jobs:
 #          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
       - name: Build and push Docker image
         run: |
-          docker-compose -f compose-dev.yaml up -d --pull
+          docker compose -f compose-dev.yaml build --push
   deploy:
     needs: build
     runs-on: ubuntu-latest
