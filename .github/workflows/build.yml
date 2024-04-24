@@ -25,6 +25,16 @@ jobs:
       - name: Print current directory
         run: |
           echo "Current directory: $GITHUB_WORKSPACE"
+      - name: Install OpenJDK 11
+        run: |
+          sudo apt update
+          sudo apt install -y openjdk-11-jdk
+      - name: Set JAVA_HOME
+        run: |
+          echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
+      - name: Print Java version
+        run: java -version
+
       - name: Push Docker Hub
         run: |
           chmod 777 gradlew
