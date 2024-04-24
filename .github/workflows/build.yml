@@ -31,8 +31,10 @@ jobs:
           java-version: '17'
       - name: Push Docker Hub
         run: |
-          chmod 777 gradlew
-          bash ./gradlew buildAllProjectsAndPushDockerImage
+          gradle wrapper
+          chmod +x gradlew
+          pwd
+          ./gradlew buildAllProjectsAndPushDockerImage
 
   deploy:
     needs: build
