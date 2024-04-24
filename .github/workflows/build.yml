@@ -28,7 +28,7 @@ jobs:
       - name: Push Docker Hub
         run: |
           chmod +x gradlew
-          ./gradlew buildAllProjectsAndPushDockerImage
+          bash ./gradlew buildAllProjectsAndPushDockerImage
 
   deploy:
     needs: build
