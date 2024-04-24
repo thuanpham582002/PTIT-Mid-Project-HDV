@@ -37,7 +37,7 @@ jobs:
           pwd
       - name: Update submodules
         run: |
-          git submodule update --remote --merge
+          git submodule update --remote --merge --verbose
 #          chmod +x gradlew
 #          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
 
