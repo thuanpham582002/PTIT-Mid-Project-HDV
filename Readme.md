@@ -2,6 +2,10 @@
 ```bash
 ./gradlew buildAllProjects
 ```
+### Build all file Jar and run docker-compose
+```bash
+./gradlew buildAllProjectsAndRunDockerCompose
+```
 ### Add submodule
 ```bash
 git submodule add
