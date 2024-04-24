@@ -1,4 +1,4 @@
-version: '1.0'
+name: Docker Compose
 
 services:
   config-server:
