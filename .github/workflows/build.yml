@@ -35,15 +35,8 @@ jobs:
       - name: Push Docker Hub
         run: |
           pwd
+          git submodule update --remote --merge
           chmod +x gradlew
-          chmod +x /Car_Rental-Car_Service/gradlew
-          chmod +x /Car_Rental-Contract_Service/gradlew
-          chmod +x /Car_Rental-Eureka_Server/gradlew
-          chmod +x /Car_Rental-Gateway_Service/gradlew
-          chmod +x /Car_Rental-Server_Config/gradlew
-          chmod +x /Car_Rental-User_Service/gradlew
-          chmod +x /accessibility-service/gradlew
-          chmod +x /Car_Rental-Auth_Service/gradlew
           gradle buildAllProjectsAndPushDockerImage --info --stacktrace
 
   deploy:
