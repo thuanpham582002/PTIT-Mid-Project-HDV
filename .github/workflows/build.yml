@@ -49,7 +49,7 @@ jobs:
       - name: Update submodules
         run: |
           chmod +x gradlew
-          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
+#          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
       - name: Build and push Docker image
         run: |
           docker-compose -f compose-dev.yaml up -d --pull
