@@ -41,10 +41,11 @@ jobs:
           pwd
       - name: Update submodules
         run: |
-          git submodule update --remote --merge --verbose
           chmod +x gradlew
           gradle buildAllProjectsAndPushDockerImage --info --stacktrace
-          docker-compose -f compose-dev.yaml build --push
+      - name: Build and push Docker image
+        run: |
+          docker-compose -f compose-dev.yaml up -d --pull
   deploy:
     needs: build
     runs-on: ubuntu-latest
