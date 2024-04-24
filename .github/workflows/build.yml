@@ -47,10 +47,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Pull the image that was pushed to DockerHub above
-            docker-compose -f compose-dev.yml pull
+            docker-compose -f compose-dev.yaml pull
             
-#            # Stop and remove the current (if any)
-#            docker-compose -f compose-dev.yml down
+            # Stop and remove the current (if any)
+            docker-compose -f compose-dev.yml down
             
             # Run a new container with the image pulled above
             docker-compose -f compose-dev.yaml up -d
