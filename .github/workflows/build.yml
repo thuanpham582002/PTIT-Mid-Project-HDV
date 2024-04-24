@@ -42,8 +42,8 @@ jobs:
       - name: Update submodules
         run: |
           git submodule update --remote --merge --verbose
-#          chmod +x gradlew
-#          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
+          chmod +x gradlew
+          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
 
   deploy:
     needs: build
