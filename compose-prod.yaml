@@ -31,7 +31,7 @@ services:
       retries: 3
     environment:
       EUREKA_PORT: 8761
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       EUREKA_INSTANCE_HOSTNAME: eureka-server
@@ -53,7 +53,7 @@ services:
       ACCESSIBILITY_SERVICE_PORT: 6871
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
 
   auth-service:
     image: noroom113/car-rental-auth-service
@@ -72,7 +72,7 @@ services:
       AUTH_SERVICE_PORT: 6872
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
 
 
   user-service:
@@ -93,7 +93,7 @@ services:
       USER_SERVICE_PORT: 6868
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
 
   car-service:
     image: noroom113/car-rental-car-service
@@ -113,7 +113,7 @@ services:
       CAR_SERVICE_PORT: 6869
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
 
   contract-service:
     image: noroom113/car-rental-contract-service
@@ -133,7 +133,7 @@ services:
       CONTRACT_SERVICE_PORT: 6870
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
 
   gateway-service:
     image: noroom113/car-rental-gateway-service
@@ -158,7 +158,7 @@ services:
       GATEWAY_SERVICE_PORT: 8762
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: docker_prod
 
 networks:
   prod-network:
