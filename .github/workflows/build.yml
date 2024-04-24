@@ -44,7 +44,7 @@ jobs:
           git submodule update --remote --merge --verbose
           chmod +x gradlew
           gradle buildAllProjectsAndPushDockerImage --info --stacktrace
-
+          docker-compose -f compose-dev.yaml build --push
   deploy:
     needs: build
     runs-on: ubuntu-latest
