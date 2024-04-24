@@ -49,7 +49,11 @@ jobs:
       - name: Update submodules
         run: |
           chmod +x gradlew
-          gradle buildAllProjectsAndPushDockerImage
+          gradle buildAllProjects
+            docker-compose -f compose-dev.yaml build
+      - name: push Docker image
+        run: |
+          docker compose -f compose-dev.yaml build --push
   deploy:
     needs: build
     runs-on: ubuntu-latest
