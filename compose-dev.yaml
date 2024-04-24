@@ -5,7 +5,7 @@ services:
     build:
         context: Car_Rental-Server_Config
         dockerfile: Dockerfile
-    image: noroom113/car-rental-config-server
+    image: noroom113/car-rental-config-server:test-tag
     ports:
       - "8888:8888"
     networks:
