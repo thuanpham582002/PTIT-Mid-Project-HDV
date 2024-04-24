@@ -36,8 +36,8 @@ jobs:
         run: |
           pwd
           git submodule update --remote --merge
-          chmod +x gradlew
-          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
+#          chmod +x gradlew
+#          gradle buildAllProjectsAndPushDockerImage --info --stacktrace
 
   deploy:
     needs: build
