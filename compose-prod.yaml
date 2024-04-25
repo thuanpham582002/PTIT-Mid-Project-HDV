@@ -2,7 +2,7 @@ version: '2.2'
 
 services:
   config-server:
-    image: noroom113/car-rental-config-server
+    image: noroom113/car-rental-config-server:${CAR_RENTAL_SERVER_CONFIG_COMMIT_HASH}
     ports:
       - "8888:8888"
     networks:
@@ -16,7 +16,7 @@ services:
       SPRING_PROFILES_ACTIVE: native
 
   eureka-server:
-    image: noroom113/car-rental-eureka-server
+    image: noroom113/car-rental-eureka-server:${CAR_RENTAL_EUREKA_SERVER_COMMIT_HASH}
     ports:
       - "8761:8761"
     depends_on:
@@ -37,7 +37,7 @@ services:
       EUREKA_INSTANCE_HOSTNAME: eureka-server
 
   accessibility-service:
-    image: noroom113/car-rental-accessibility-service
+    image: noroom113/car-rental-accessibility-service:${ACCESSIBILITY_SERVICE_COMMIT_HASH}
     ports:
       - "6871:6871"
     healthcheck:
@@ -56,7 +56,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker_prod
 
   auth-service:
-    image: noroom113/car-rental-auth-service
+    image: noroom113/car-rental-auth-service:${CAR_RENTAL_AUTH_SERVICE_COMMIT_HASH}
     ports:
       - "6872:6872"
     healthcheck:
@@ -76,7 +76,7 @@ services:
 
 
   user-service:
-    image: noroom113/car-rental-user-service
+    image: noroom113/car-rental-user-service:${CAR_RENTAL_USER_SERVICE_COMMIT_HASH}
     ports:
       - "6868:6868"
     healthcheck:
@@ -96,7 +96,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker_prod
 
   car-service:
-    image: noroom113/car-rental-car-service
+    image: noroom113/car-rental-car-service:${CAR_RENTAL_CAR_SERVICE_COMMIT_HASH}
     ports:
       - "6869:6869"
     depends_on:
@@ -116,7 +116,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker_prod
 
   contract-service:
-    image: noroom113/car-rental-contract-service
+    image: noroom113/car-rental-contract-service:${CAR_RENTAL_CONTRACT_SERVICE_COMMIT_HASH}
     ports:
       - "6870:6870"
     depends_on:
@@ -136,7 +136,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker_prod
 
   gateway-service:
-    image: noroom113/car-rental-gateway-service
+    image: noroom113/car-rental-gateway-service:${CAR_RENTAL_GATEWAY_SERVICE_COMMIT_HASH}
     ports:
       - "8762:5120"
     depends_on:
