@@ -37,16 +37,23 @@ jobs:
       - name: Check diff
         id: check_diff
         run: |
-          if ! git diff --quiet --exit-code ./config/.env.dev ./config/.env.dev.new; then
-            echo "Changes detected in .env.dev"
-            mv ./config/.env.dev.new ./config/.env.dev  # Ghi đè tệp .env.dev cũ bằng tệp .env.dev.new
-            echo "::set-output name=env_diff::true"
+          if [ -f ./config/.env.dev ]; then
+            echo "Checking diff between .env.dev and .env.dev.new"
+            diff ./config/.env.dev ./config/.env.dev.new
+            if [ $? -eq 0 ]; then
+              echo "No changes detected"
+              echo "::set-output name=env_diff::false"
+            else
+              echo "Changes detected"
+              echo "::set-output name=env_diff::true"
+            fi
           else
-            echo "No changes detected in .env.dev"
-            echo "::set-output name=env_diff::false"
+            echo "No existing .env.dev file found"
+            echo "::set-output name=env_diff::true"
           fi
 
       - name: Commit and push .env.dev if there are changes
+        if: steps.check_diff.outputs.env_diff == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
