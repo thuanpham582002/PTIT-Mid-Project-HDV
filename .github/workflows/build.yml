@@ -100,4 +100,4 @@ jobs:
 #          token: ${{ secrets.PAT_TOKEN }}
       - name: Run Docker compose
         run: |
-          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d >/dev/null 2>&1
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d
