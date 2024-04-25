@@ -54,7 +54,7 @@ tasks.register("buildAllProjects") {
     }
 }
 
-tasks.register("buildAllProjectAndRunDockerCompose") {
+tasks.register("buildAllProjectsAndRunDockerCompose") {
     group = "custom"
     description = "Build JAR for all projects and run docker compose"
 
@@ -63,7 +63,8 @@ tasks.register("buildAllProjectAndRunDockerCompose") {
     doLast {
         exec {
             workingDir = file("./")
-            commandLine = listOf("docker-compose", "-f", "compose-dev.yaml", "up", "--build")
+            commandLine =
+                listOf("docker-compose", "--env-file", "./config/.env.dev", "-f", "compose-dev.yaml", "up", "--build")
         }
     }
 }
@@ -77,7 +78,8 @@ tasks.register("buildAllProjectsAndPushDockerImage") {
     doLast {
         exec {
             workingDir = file("./")
-            commandLine = listOf("docker compose", "-f", "compose-dev.yaml", "build", "--push")
+            commandLine =
+                listOf("docker compose", "--env-file", "./config/.env.dev", "-f", "compose-dev.yaml", "build", "--push")
         }
     }
 }

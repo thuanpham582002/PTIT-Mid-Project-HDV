@@ -30,11 +30,13 @@ Mong muốn chuyển hệ thống sang docker để dễ dàng quản lý, scale
 ## Phân tích / Thiết kế bài toán
 [Document](https://docs.google.com/document/d/1BBJNlAX6A7exMp9Kt43mJgpwVA2Pb-x_sR-0Wm0NHck/edit?usp=sharing)
 
+
 ## Mô tả giải pháp
 - Sử dụng Docker để containerize các service.
 - Sử dụng Docker Compose để quản lý các container.
 - Sử dụng Github Action để tự động hóa quá trình deploy.
   ![Flow](resources/flow.png)
+  ![FlowWeek2](https://www.tldraw.com/r/xGz8QsCLiEKPWKfpezetS?v=-2710,-1525,9100,4953&p=Egs7S8klRV9A7DgjQxw3b)
 
 ## Ngôn ngữ và Framework sử dụng
 - Frontend: ReactJs
