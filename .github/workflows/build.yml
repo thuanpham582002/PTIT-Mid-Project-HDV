@@ -56,6 +56,7 @@ jobs:
   build:
     needs: [update_env_dev]
     runs-on: ubuntu-latest
+    if: github.event.head_commit.message == 'Update submodule hashes for development'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -91,9 +92,12 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
+      - name: Print current directory
+        run: |
+          pwd
 #        with:
 #          submodules: recursive
 #          token: ${{ secrets.PAT_TOKEN }}
-      - name: push Docker image
+      - name: Run Docker compose
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d >/dev/null 2>&1
