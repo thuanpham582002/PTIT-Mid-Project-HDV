@@ -47,11 +47,11 @@ jobs:
           fi
 
       - name: Commit and push .env.dev if there are changes
-        if: steps.check_diff.outputs.env_diff == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./config/.env.dev
+          git add ./config/.env.dev.new
           git commit -m "Update submodule hashes for development"
           git push
   build:
