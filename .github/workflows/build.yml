@@ -55,6 +55,8 @@ jobs:
           git push
 
   build:
+    needs:
+      - update_env_dev
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || github.event_name == 'pull_request' && github.base_ref == 'develop'
     steps:
