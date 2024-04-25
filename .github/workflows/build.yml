@@ -37,10 +37,12 @@ jobs:
                     echo "::set-output name=env_diff::false"
                 else
                     echo "::set-output name=env_diff::true"
+                    mv ./config/.env.dev.new ./config/.env.dev
                 fi
             else
                 echo "No existing .env.dev file found"
                 echo "::set-output name=env_diff::true"
+                mv ./config/.env.dev.new ./config/.env.dev
             fi
 
       - name: Commit and push .env.dev if there are changes
