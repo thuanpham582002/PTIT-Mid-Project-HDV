@@ -5,7 +5,7 @@ services:
     build:
         context: Car_Rental-Server_Config
         dockerfile: Dockerfile
-    image: noroom113/car-rental-config-server
+    image: noroom113/car-rental-config-server:${CAR_RENTAL_SERVER_CONFIG_COMMIT_HASH}
     ports:
       - "8888:8888"
     networks:
@@ -22,7 +22,7 @@ services:
     build:
       context: Car_Rental-Eureka_Server
       dockerfile: Dockerfile
-    image: noroom113/car-rental-eureka-server
+    image: noroom113/car-rental-eureka-server:${CAR_RENTAL_EUREKA_SERVER_COMMIT_HASH}
     ports:
       - "8761:8761"
     depends_on:
@@ -46,7 +46,7 @@ services:
     build:
       context: accessibility-service
       dockerfile: Dockerfile
-    image: noroom113/car-rental-accessibility-service
+    image: noroom113/car-rental-accessibility-service:${ACCESSIBILITY_SERVICE_COMMIT_HASH}
     ports:
       - "6871:6871"
     healthcheck:
@@ -69,7 +69,7 @@ services:
       context:
         Car_Rental-Auth_Service
       dockerfile: Dockerfile
-    image: noroom113/car-rental-auth-service
+    image: noroom113/car-rental-auth-service:${CAR_RENTAL_AUTH_SERVICE_COMMIT_HASH}
     ports:
       - "6872:6872"
     healthcheck:
@@ -92,7 +92,7 @@ services:
     build:
       context: Car_Rental-User_Service
       dockerfile: Dockerfile
-    image: noroom113/car-rental-user-service
+    image: noroom113/car-rental-user-service:${CAR_RENTAL_USER_SERVICE_COMMIT_HASH}
     ports:
       - "6868:6868"
     healthcheck:
@@ -115,7 +115,7 @@ services:
     build:
       context: Car_Rental-Car_Service
       dockerfile: Dockerfile
-    image: noroom113/car-rental-car-service
+    image: noroom113/car-rental-car-service:${CAR_RENTAL_CAR_SERVICE_COMMIT_HASH}
     ports:
       - "6869:6869"
     depends_on:
@@ -138,7 +138,7 @@ services:
     build:
       context: Car_Rental-Contract_Service
       dockerfile: Dockerfile
-    image: noroom113/car-rental-contract-service
+    image: noroom113/car-rental-contract-service:${CAR_RENTAL_CONTRACT_SERVICE_COMMIT_HASH}
     ports:
       - "6870:6870"
     depends_on:
@@ -161,7 +161,7 @@ services:
     build:
       context: Car_Rental-Gateway_Service
       dockerfile: Dockerfile
-    image: noroom113/car-rental-gateway-service
+    image: noroom113/car-rental-gateway-service:${CAR_RENTAL_GATEWAY_SERVICE_COMMIT_HASH}
     ports:
       - "8762:8762"
     depends_on:
