@@ -36,7 +36,7 @@ Mong muốn chuyển hệ thống sang docker để dễ dàng quản lý, scale
 - Sử dụng Docker Compose để quản lý các container.
 - Sử dụng Github Action để tự động hóa quá trình deploy.
   ![Flow](resources/flow.png)
-  ![FlowWeek2](https://www.tldraw.com/r/xGz8QsCLiEKPWKfpezetS?v=-2710,-1525,9100,4953&p=Egs7S8klRV9A7DgjQxw3b)
+  [Flow Week 2](https://www.tldraw.com/r/xGz8QsCLiEKPWKfpezetS?v=-2710,-1525,9100,4953&p=Egs7S8klRV9A7DgjQxw3b)
 
 ## Ngôn ngữ và Framework sử dụng
 - Frontend: ReactJs
