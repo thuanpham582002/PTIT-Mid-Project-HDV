@@ -106,5 +106,3 @@ jobs:
       - name: Run Docker compose
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d
-
-#
