@@ -97,7 +97,7 @@ jobs:
     needs:
         - build
     if: always()
-    runs-on: self-hosted
+    runs-on: self-hosted-dev
     steps:
       - uses: actions/checkout@v3
       - name: Print current directory
