@@ -85,4 +85,4 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
       - name: push Docker image
         run: |
-          docker compose -f compose-dev.yaml --env-file ./config/.env.dev up -d >/dev/null 2>&1
+          docker compose -f compose-dev.yaml --env-file ./config/.env.dev up -d --no-build >/dev/null 2>&1
