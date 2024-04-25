@@ -26,8 +26,7 @@ jobs:
           submodule=$(echo $line | awk -F"-" '{print $1}' | sed 's/_/-/g' | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2)); print $0}')
           hash=$(echo $line | awk -F"-" '{print $2}')
           echo "${submodule}_COMMIT_HASH=$hash" >> ./config/.env.dev.new
-          done < submodule_hashes.txt
-      
+          done < submodule_hashes.txt   
 
       - name: Check diff
         id: check_diff
@@ -41,17 +40,10 @@ jobs:
             echo "::set-output name=env_diff::false"
           fi
 
-      - name: Commit and push .env.dev if there are changes
-        if: steps.check_diff.outputs.env_diff == 'true'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add ./config/.env.dev
-          git commit -m "Update submodule hashes for development"
-          git push
-  build:
-    needs: [update_env_dev]
+  build_and_deploy:
     runs-on: ubuntu-latest
+    if: ${{ needs.update_env_dev.outputs.env_diff != 'true' }} # Only run if there are no environment differences
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -83,9 +75,11 @@ jobs:
       - name: push Docker image
         run: |
           docker compose -f compose-dev.yaml --env-file ./config/.env.dev build --push
+
   deploy:
-    needs: [build]
     runs-on: self-hosted
+    if: ${{ needs.update_env_dev.outputs.env_diff == 'true' }} # Only run if there are environment differences
+
     steps:
       - uses: actions/checkout@v3
         with:
