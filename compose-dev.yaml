@@ -16,7 +16,7 @@ services:
       timeout: 10s
       retries: 3
     environment:
-      SPRING_PROFILES_ACTIVE: docker_dev
+      SPRING_PROFILES_ACTIVE: native
 
   eureka-server:
     build:
