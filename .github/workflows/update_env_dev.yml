@@ -1,0 +1,37 @@
+name: Update ENV for Dev
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  update_env_dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get submodule commit hashes
+        run: |
+          SUBMODULE_HASHES=$(git submodule status | awk '{print $1, $2}')
+          echo "$SUBMODULE_HASHES" > submodule_hashes.txt
+
+      - name: Create .env.dev file
+        run: |
+          echo "# Submodule commit hashes for development" > ./config/.env.dev
+          while read -r line; do
+            submodule=$(echo $line | awk '{print $2}')
+            hash=$(echo $line | awk '{print $1}')
+            echo "${submodule^^}_COMMIT_HASH=$hash" >> ./config/.env.dev
+          done < submodule_hashes.txt
+
+      - name: Commit and push .env.dev
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./config/.env.dev
+          git commit -m "Update submodule hashes for development"
+          git push
