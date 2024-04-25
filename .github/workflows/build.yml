@@ -31,19 +31,19 @@ jobs:
       - name: Check diff
         id: check_diff
         run: |
-            if [ -f ./config/.env.dev ]; then
-                echo "Checking diff between .env.dev and .env.dev.new"
-                if diff --brief ./config/.env.dev ./config/.env.dev.new; then
-                    echo "::set-output name=env_diff::false"
-                else
-                    echo "::set-output name=env_diff::true"
-                    mv ./config/.env.dev.new ./config/.env.dev
-                fi
-            else
-                echo "No existing .env.dev file found"
-                echo "::set-output name=env_diff::true"
-                mv ./config/.env.dev.new ./config/.env.dev
-            fi
+          if [ -f ./config/.env.dev ]; then
+              echo "Checking diff between .env.dev and .env.dev.new"
+              if diff --brief ./config/.env.dev ./config/.env.dev.new; then
+                  echo "::set-output name=env_diff::false"
+              else
+                  echo "::set-output name=env_diff::true"
+                  mv ./config/.env.dev.new ./config/.env.dev
+              fi
+          else
+              echo "No existing .env.dev file found"
+              echo "::set-output name=env_diff::true"
+              mv ./config/.env.dev.new ./config/.env.dev
+          fi
 
       - name: Commit and push .env.dev if there are changes
         if: steps.check_diff.outputs.env_diff == 'true'
@@ -53,11 +53,14 @@ jobs:
           git add ./config/.env.dev
           git commit -m "Update submodule hashes for development"
           git push
+
   build:
-    needs: [update_env_dev]
     runs-on: ubuntu-latest
-    if: github.event.head_commit.message == 'Update submodule hashes for development'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop' || github.event_name == 'pull_request' && github.base_ref == 'develop'
     steps:
+      - name: Set build_flag
+        id: set_build_flag
+        run: echo "::set-output name=build_flag::true"
       - uses: actions/checkout@v3
         with:
           submodules: recursive
@@ -87,17 +90,19 @@ jobs:
       - name: push Docker image
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
+
   deploy:
-    needs: [build, update_env_dev]
     runs-on: self-hosted
+    needs: [update_env_dev, build]
+    if: ${{ needs.update_env_dev.outputs.env_diff == 'true' || needs.build.outputs.build_flag == 'true' }}
     steps:
       - uses: actions/checkout@v3
       - name: Print current directory
         run: |
           pwd
-#        with:
-#          submodules: recursive
-#          token: ${{ secrets.PAT_TOKEN }}
+      #        with:
+      #          submodules: recursive
+      #          token: ${{ secrets.PAT_TOKEN }}
       - name: Run Docker compose
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d >/dev/null 2>&1
