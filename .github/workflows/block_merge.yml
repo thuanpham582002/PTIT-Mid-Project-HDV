@@ -8,9 +8,9 @@ on:
   # Check label during the lifetime of a pull request
   pull_request:
     types:
-      - opened
-      - labeled
-      - unlabeled
+    - opened
+    - labeled
+    - unlabeled
 
 jobs:
   fail-for-do-not-merge:
