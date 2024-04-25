@@ -96,7 +96,6 @@ jobs:
   deploy:
     needs:
         - build
-        - update_env_dev
     if: (needs.build.result == 'success' || needs.build.result == 'skipped')
     runs-on: self-hosted
     steps:
