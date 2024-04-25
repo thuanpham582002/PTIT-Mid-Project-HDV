@@ -21,14 +21,27 @@ jobs:
 
       - name: Create .env.dev file
         run: |
-          echo "# Submodule commit hashes for development" > ./config/.env.dev
+          echo "# Submodule commit hashes for development" > ./config/.env.dev.new
           while read -r line; do
             submodule=$(echo $line | awk '{print $2}')
             hash=$(echo $line | awk '{print $1}')
-            echo "${submodule^^}_COMMIT_HASH=$hash" >> ./config/.env.dev
+            echo "${submodule^^}_COMMIT_HASH=$hash" >> ./config/.env.dev.new
           done < submodule_hashes.txt
 
-      - name: Commit and push .env.dev
+      - name: Check diff
+        id: check_diff
+        run: |
+          if ! git diff --quiet --exit-code ./config/.env.dev ./config/.env.dev.new; then
+            echo "Changes detected in .env.dev"
+            mv ./config/.env.dev.new ./config/.env.dev  # Ghi đè tệp .env.dev cũ bằng tệp .env.dev.new
+            echo "::set-output name=env_diff::true"
+          else
+            echo "No changes detected in .env.dev"
+            echo "::set-output name=env_diff::false"
+          fi
+
+      - name: Commit and push .env.dev if there are changes
+        if: steps.check_diff.outputs.env_diff == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
