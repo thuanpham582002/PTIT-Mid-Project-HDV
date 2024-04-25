@@ -34,7 +34,7 @@ jobs:
           echo "Environment file generation completed: .env.dev.new"
           
 
-  - name: Check diff
+      - name: Check diff
         id: check_diff
         run: |
           if ! git diff --quiet --exit-code ./config/.env.dev ./config/.env.dev.new; then
