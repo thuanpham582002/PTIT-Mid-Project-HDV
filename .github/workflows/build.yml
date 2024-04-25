@@ -21,18 +21,12 @@ jobs:
 
       - name: Create .env.dev file
         run: |
-          echo "Creating new environment file: .env.dev.new"
           echo "# Submodule commit hashes for development" > ./config/.env.dev.new
-          
           while read -r line; do
-          submodule=$(echo $line | awk -F"-" '{print $1}' | sed 's/_/-/g' | awk '{for (i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2)); print $0}')
-          hash=$(echo $line | awk -F"-" '{print $2}')
-          echo "Processing submodule: $submodule"
-          echo "Adding submodule commit hash: $hash"
-          echo "${submodule}_COMMIT_HASH=$hash" >> ./config/.env.dev.new
+          hash=$(echo $line | awk '{print $1}' | tr -d '-')
+          submodule=$(echo $line | awk '{print $2}' | tr '-' '_')
+          echo "${submodule^^}_COMMIT_HASH=$hash" >> ./config/.env.dev.new
           done < submodule_hashes.txt
-          echo "Environment file generation completed: .env.dev.new"
-          
 
       - name: Check diff
         id: check_diff
