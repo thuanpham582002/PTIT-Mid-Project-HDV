@@ -138,7 +138,7 @@ services:
   gateway-service:
     image: noroom113/car-rental-gateway-service:${CAR_RENTAL_GATEWAY_SERVICE_COMMIT_HASH}
     ports:
-      - "8762:5120"
+      - "5120:8762"
     depends_on:
       - config-server
       - eureka-server
