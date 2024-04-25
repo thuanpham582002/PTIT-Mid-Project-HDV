@@ -94,7 +94,9 @@ jobs:
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
   deploy:
-    if: (needs.build.result == 'success' || needs.build.result == 'skipped')
+    needs:
+        - build
+    if: always()
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
