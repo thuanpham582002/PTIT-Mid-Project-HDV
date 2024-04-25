@@ -82,7 +82,7 @@ jobs:
       - name: Update submodules
         run: |
           chmod +x gradlew
-#          gradle buildAllProjects
+          gradle buildAllProjects
       - name: push Docker image
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
