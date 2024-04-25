@@ -79,7 +79,7 @@ jobs:
       - name: Push Docker Hub
         run: |
           pwd
-      - name: Update submodules
+      - name: Build Jar files
         run: |
           chmod +x gradlew
           gradle buildAllProjects
