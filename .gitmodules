@@ -1,24 +1,6 @@
-[submodule "Car_Rental-Gateway_Service"]
-	path = Car_Rental-Gateway_Service
-	url = https://github.com/thuanpham582002/Car_Rental-Gateway_Service.git
-[submodule "Car_Rental-Eureka_Server"]
-	path = Car_Rental-Eureka_Server
-	url = https://github.com/thuanpham582002/Car_Rental-Eureka_Server
-[submodule "Car_Rental-User_Service"]
-	path = Car_Rental-User_Service
-	url = https://github.com/thuanpham582002/Car_Rental-User_Service
-[submodule "Car_Rental-Car_Service"]
-	path = Car_Rental-Car_Service
-	url = https://github.com/thuanpham582002/Car_Rental-Car_Service
-[submodule "Car_Rental-Contract_Service"]
-	path = Car_Rental-Contract_Service
-	url = https://github.com/thuanpham582002/Car_Rental-Contract_Service
-[submodule "Car_Rental-Server_Config"]
-	path = Car_Rental-Server_Config
-	url = https://github.com/thuanpham582002/Car_Rental-Server_Config
-[submodule "Car_Rental-Auth_Service"]
-	path = Car_Rental-Auth_Service
-	url = https://github.com/thuanpham582002/Car_Rental-Auth_Service
-[submodule "accessibility-service"]
-	path = accessibility-service
-	url = https://github.com/thuanpham582002/accessibility-service
+[submodule "back-midproj-hdv"]
+	path = back-midproj-hdv
+	url = https://github.com/thuanpham582002/back-midproj-hdv
+[submodule "font-midproj-hdv"]
+	path = font-midproj-hdv
+	url = https://github.com/thuanpham582002/font-midproj-hdv
