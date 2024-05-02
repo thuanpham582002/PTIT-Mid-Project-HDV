@@ -49,4 +49,4 @@ Mong muốn chuyển hệ thống sang docker để dễ dàng quản lý, scale
 - Github Action
 - Docker
 - .....
-- ///
+- ///q
