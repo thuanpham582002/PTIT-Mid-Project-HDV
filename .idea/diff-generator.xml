@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="DiffGenerationConfig" isInitGenerateDdl="true">
-    <option name="initGenerateDdl" value="true" />
-    <option name="sourceModelValue" value="Default" />
-    <option name="targetDbValue" value="2dcf22d3-ea51-43c3-b7ff-239fb6fd1ed8" />
-  </component>
-</project>
