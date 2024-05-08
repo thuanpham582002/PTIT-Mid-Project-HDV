@@ -59,7 +59,7 @@ services:
     restart: always
     image: nginx:latest
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx_prod.conf:/etc/nginx/nginx.conf
       - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
