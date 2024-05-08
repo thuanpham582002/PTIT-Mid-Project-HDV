@@ -89,6 +89,9 @@ jobs:
     if: always()
     runs-on: self-hosted-dev
     steps:
+      - name: Down Docker compose
+        run: |
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml down
       - uses: actions/checkout@v3
         with:
           submodules: recursive
