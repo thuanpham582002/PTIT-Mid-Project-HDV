@@ -1,1 +1,17 @@
+name: Build and Deploy Prod
 
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted-prod
+    steps:
+      - uses: actions/checkout@v3
+      - name: Print current directory
+        run: |
+          pwd
+      - name: Run Docker compose
+        run: |
+          docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d

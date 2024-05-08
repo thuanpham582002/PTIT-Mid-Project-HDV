@@ -3,6 +3,7 @@ services:
     build:
       context: font-midproj-hdv
       target: development
+    image: noroom113/font-midproj-hdv:${FONT-MIDPROJ-HDV}
     ports:
       - 3000:3000
     stdin_open: true
@@ -27,6 +28,7 @@ services:
     build:
       context: back-midproj-hdv
       target: dev-envs
+    image: noroom113/back-midproj-hdv:${BACK-MIDPROJ-HDV}
     develop:
       watch:
         - action: sync
@@ -47,7 +49,8 @@ services:
     restart: always
     image: mongo:4.2.0
     volumes:
-      - mongo_data:/data/db
+      - ./mongo_dump:/dump
+      - ./mongo_data:/data/db
     networks:
       - express-mongo
     expose:

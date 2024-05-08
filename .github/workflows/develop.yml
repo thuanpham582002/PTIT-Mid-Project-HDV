@@ -1,1 +1,94 @@
+name: Build and Deploy Dev
 
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  update_env_dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Get submodule commit hashes
+        run: |
+          SUBMODULE_HASHES=$(git submodule status | awk '{print $1, $2}')
+          echo "$SUBMODULE_HASHES" > submodule_hashes.txt
+
+      - name: Create .env.dev file
+        run: |
+          echo "# Submodule commit hashes for development" > ./config/.env.dev.new
+          while read -r line; do
+          hash=$(echo $line | awk '{print $1}' | tr -d '-')
+          submodule=$(echo $line | awk '{print $2}' | tr '-' '_')
+          echo "${submodule^^}_COMMIT_HASH=$hash" >> ./config/.env.dev.new
+          done < submodule_hashes.txt
+
+      - name: Check diff
+        id: check_diff
+        run: |
+          if [ -f ./config/.env.dev ]; then
+              echo "Checking diff between .env.dev and .env.dev.new"
+              if diff --brief ./config/.env.dev ./config/.env.dev.new; then
+                  echo "::set-output name=env_diff::false"
+              else
+                  echo "::set-output name=env_diff::true"
+                  mv ./config/.env.dev.new ./config/.env.dev
+              fi
+          else
+              echo "No existing .env.dev file found"
+              echo "::set-output name=env_diff::true"
+              mv ./config/.env.dev.new ./config/.env.dev
+          fi
+
+      - name: Commit and push .env.dev if there are changes
+        if: steps.check_diff.outputs.env_diff == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./config/.env.dev
+          git commit -m "Update submodule hashes for development"
+          git push
+      - name: Build And Push Docker Images
+        if: steps.check_diff.outputs.env_diff == 'true'
+        run: |
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
+  build:
+    needs: [update_env_dev]
+    runs-on: ubuntu-latest
+    if: github.event.head_commit.message == 'Update submodule hashes for development'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.PAT_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3.1.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Print current directory
+        run: |
+          echo "Current directory: $GITHUB_WORKSPACE"
+      - name: push Docker image
+        run: |
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
+  deploy:
+    needs:
+      - build
+    if: always()
+    runs-on: self-hosted-dev
+    steps:
+      - uses: actions/checkout@v3
+      - name: Print current directory
+        run: |
+          pwd
+      - name: Run Docker compose
+        run: |
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d
