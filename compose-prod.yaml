@@ -60,7 +60,6 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx_prod.conf:/etc/nginx/nginx.conf
-      - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     ports:
@@ -69,13 +68,25 @@ services:
     networks:
       - react-express
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
   certbot:
-    image: certbot/certbot
-    restart: unless-stopped
+    image: certbot/certbot:v1.8.0
+    container_name: certbot
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - /data/certbot/letsencrypt:/etc/letsencrypt
+      - /data/certbot/www:/var/www/certbot
+      - /data/servers-data/certbot/log:/var/log
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    environment:
+      - CERT_DIR_PATH=/data/certbot/letsencrypt
+      - WEBROOT_PATH=/data/certbot/www
+      - LE_RENEW_HOOK=docker restart nginx
+      - DOMAINS=www.noroom113.me
+      - EMAIL=tienthuan05082002@gmail.com
+      - EXP_LIMIT=30
+      - CHECK_FREQ=30
+      - CHICKENEGG=1
+      - STAGING=0
 networks:
   react-express:
   express-mongo:
