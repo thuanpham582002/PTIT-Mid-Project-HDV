@@ -95,4 +95,4 @@ jobs:
           pwd
       - name: Run Docker compose
         run: |
-          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d --watch
