@@ -82,7 +82,6 @@ jobs:
           echo "Current directory: $GITHUB_WORKSPACE"
       - name: push Docker image
         run: |
-          docker compose -f compose-dev.yaml down
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
   deploy:
     needs:
@@ -96,4 +95,5 @@ jobs:
           pwd
       - name: Run Docker compose
         run: |
+          docker compose -f compose-dev.yaml down
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d --watch
