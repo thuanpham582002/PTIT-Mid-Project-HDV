@@ -3,7 +3,7 @@ services:
     build:
       context: font-midproj-hdv
       target: development
-    image: noroom113/font-midproj-hdv:${FONT-MIDPROJ-HDV}
+    image: noroom113/font-midproj-hdv:${FONT_MIDPROJ_HDV_COMMIT_HASH}
     ports:
       - 3000:3000
     stdin_open: true
@@ -28,7 +28,7 @@ services:
     build:
       context: back-midproj-hdv
       target: dev-envs
-    image: noroom113/back-midproj-hdv:${BACK-MIDPROJ-HDV}
+    image: noroom113/back-midproj-hdv:${BACK_MIDPROJ_HDV_COMMIT_HASH}
     develop:
       watch:
         - action: sync
@@ -60,11 +60,22 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - react-express
-
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 networks:
   react-express:
   express-mongo:

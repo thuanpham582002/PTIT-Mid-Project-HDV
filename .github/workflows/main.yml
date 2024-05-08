@@ -9,9 +9,12 @@ jobs:
     runs-on: self-hosted-prod
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.PAT_TOKEN }}
       - name: Print current directory
         run: |
           pwd
       - name: Run Docker compose
         run: |
-          docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d
+          docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d --watch
