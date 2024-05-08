@@ -90,10 +90,12 @@ jobs:
     runs-on: self-hosted-dev
     steps:
       - uses: actions/checkout@v3
-      - name: Print current directory
+        with:
+          submodules: recursive
+          token: ${{ secrets.PAT_TOKEN }}
+      - name: Print current directry
         run: |
           pwd
       - name: Run Docker compose
         run: |
-          docker compose -f compose-dev.yaml down
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d --watch
