@@ -92,6 +92,7 @@ jobs:
       - name: Down Docker compose
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml down
+        continue-on-error: true
       - uses: actions/checkout@v3
         with:
           submodules: recursive
