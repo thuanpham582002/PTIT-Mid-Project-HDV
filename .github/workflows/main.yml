@@ -8,6 +8,9 @@ jobs:
   deploy:
     runs-on: self-hosted-prod
     steps:
+      - name: Chown user
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
       - uses: actions/checkout@v4
         with:
           submodules: recursive
