@@ -91,7 +91,9 @@ jobs:
     steps:
        # The "cleanup old checkout" step is needed because of this bug: https://github.com/actions/checkout/issues/1014
       - name: cleanup old checkout
-        run: sudo chmod +w -R ${GITHUB_WORKSPACE}; rm -rf ${GITHUB_WORKSPACE}/*;
+        run: |
+          sudo chmod +w -R ${GITHUB_WORKSPACE}
+          sudo rm -rf ${GITHUB_WORKSPACE}/*
       - name: Down Docker compose
         run: |
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml down
