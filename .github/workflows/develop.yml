@@ -23,19 +23,9 @@ jobs:
 
       - name: Create .env.dev file
         run: |
-          FILE=./config/.env.dev.new
-          if [ ! -f "$FILE" ]; then
-            touch $FILE
-            echo "$FILE created."
-          else
-            echo "$FILE exists."
-          fi
-          FILE=./config/.env.dev
-          if [ ! -f "$FILE" ]; then
-            touch $FILE
-            echo "$FILE created."
-          else
-            echo "$FILE exists."
+          mkdir -p ./config  # Create config directory if not exists
+          if [ ! -f ./config/.env.dev ]; then
+            touch ./config/.env.dev  # Create .env.dev if not exists
           fi
           echo "# Submodule commit hashes for development" > ./config/.env.dev.new
           while read -r line; do
