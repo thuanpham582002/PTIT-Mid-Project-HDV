@@ -1,7 +1,5 @@
 services:
   frontend:
-    build:
-      context: font-midproj-hdv
     image: noroom113/font-midproj-hdv:${FONT_MIDPROJ_HDV_COMMIT_HASH}
     ports:
       - 3000:3000
@@ -24,8 +22,6 @@ services:
 
   backend:
     restart: always
-    build:
-      context: back-midproj-hdv
     image: noroom113/back-midproj-hdv:${BACK_MIDPROJ_HDV_COMMIT_HASH}
     develop:
       watch:
