@@ -111,6 +111,5 @@ jobs:
           pwd
       - name: Run Docker compose
         run: |
-          sudo docker rm --vf $(docker ps -aq)
-          sudo docker rmi --f $(sudo docker images -aq)
+          sudo docker rm -vf $(sudo docker ps -aq)
           docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d --watch
