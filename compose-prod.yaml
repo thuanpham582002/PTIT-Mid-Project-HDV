@@ -63,7 +63,7 @@ services:
       - react-express
     volumes:
       - nginx_secrets:/etc/letsencrypt
-      - ./user_conf.d:/etc/nginx/
+      - ./user_conf.d:/etc/nginx/user_conf.d
 
 networks:
   react-express:
