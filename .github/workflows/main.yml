@@ -20,4 +20,4 @@ jobs:
           pwd
       - name: Run Docker compose
         run: |
-          docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d --watch
+          docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d --watch --force-recreate
