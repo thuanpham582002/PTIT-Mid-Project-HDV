@@ -27,7 +27,7 @@ services:
     restart: always
     build:
       context: back-midproj-hdv
-      target: dev-envs
+      target: development
     image: noroom113/back-midproj-hdv:${BACK_MIDPROJ_HDV_COMMIT_HASH}
     develop:
       watch:
