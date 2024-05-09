@@ -55,7 +55,7 @@ services:
       - 27017
   nginx:
     restart: always
-    image: jonasal/nginx-certbot:latest
+    image: nginx:latest
     environment:
       CERTBOT_EMAIL: 'tienthuan05082002@gmail.com'
     env_file:
