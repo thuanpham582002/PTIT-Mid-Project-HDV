@@ -15,6 +15,7 @@ jobs:
         with:
           submodules: recursive
           token: ${{ secrets.PAT_TOKEN }}
+          clean: false
       - name: Print current directory
         run: |
           pwd
