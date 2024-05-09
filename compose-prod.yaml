@@ -57,39 +57,24 @@ services:
       - 27017
   nginx:
     restart: always
-    image: nginx:latest
-    volumes:
-      - ./nginx_prod.conf:/etc/nginx/nginx.conf
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+    image: jonasal/nginx-certbot:latest
+    environment:
+      CERTBOT_EMAIL: 'tienthuan05082002@gmail.com'
+    env_file:
+      - ./nginx-certbot.env
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     networks:
       - react-express
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-
-  certbot:
-    image: certbot/certbot:v1.8.0
-    container_name: certbot
     volumes:
-      - /data/certbot/letsencrypt:/etc/letsencrypt
-      - /data/certbot/www:/var/www/certbot
-      - /data/servers-data/certbot/log:/var/log
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    environment:
-      - CERT_DIR_PATH=/data/certbot/letsencrypt
-      - WEBROOT_PATH=/data/certbot/www
-      - LE_RENEW_HOOK=docker restart nginx
-      - DOMAINS=www.noroom113.me
-      - EMAIL=tienthuan05082002@gmail.com
-      - EXP_LIMIT=30
-      - CHECK_FREQ=30
-      - CHICKENEGG=1
-      - STAGING=0
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
 networks:
   react-express:
   express-mongo:
 
 volumes:
   mongo_data:
+  nginx_secrets: { }
+  certificates: { }
