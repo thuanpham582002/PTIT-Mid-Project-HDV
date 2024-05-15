@@ -108,6 +108,9 @@ jobs:
       - name: Unzip dump file
         run: |
           unzip -o ./mongo_dump.zip -d ./mongo_dump
+      - name: Clear Data MongoDB
+        run: |
+          sudo rm -rf ./mongo_data/*
       - name: Run Docker compose
         run: |
           docker system prune --all --force
