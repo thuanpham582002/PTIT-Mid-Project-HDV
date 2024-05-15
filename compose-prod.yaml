@@ -16,6 +16,8 @@ services:
           path: package.json
     networks:
       - react-express
+    environment:
+      HOST: 0.0.0.0
     depends_on:
       - backend
       - nginx
