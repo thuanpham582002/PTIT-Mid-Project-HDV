@@ -97,10 +97,6 @@ jobs:
       - name: Chown user
         run: |
           sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-      - name: Down Docker compose
-        run: |
-          docker compose --env-file ./config/.env.dev -f compose-dev.yaml down
-        continue-on-error: true
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -112,4 +108,4 @@ jobs:
       - name: Run Docker compose
         run: |
           docker system prune --all --force
-          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d --watch
+          docker compose --env-file ./config/.env.dev -f compose-dev.yaml up -d --watch --force-recreate
