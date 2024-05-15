@@ -107,8 +107,8 @@ jobs:
           pwd
       - name: Unzip dump file
         run: |
-          sudo rm -rf ./mongo_data/*
-          unzip -o ./mongo_dump.zip -d ./mongo_dump
+          sudo rm -rf ./mongo_dump
+          unzip -o ./mongo_dump.zip
       - name: Clear Data MongoDB
         run: |
           sudo rm -rf ./mongo_data/*
