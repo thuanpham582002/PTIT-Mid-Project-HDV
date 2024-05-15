@@ -51,6 +51,7 @@ services:
     volumes:
       - ./mongo_dump:/dump
       - ./mongo_data:/data/db
+      - ./mongorestore.sh:/docker-entrypoint-initdb.d/mongorestore.sh
     networks:
       - express-mongo
     expose:
