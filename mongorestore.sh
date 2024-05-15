@@ -1,4 +1,5 @@
 #!/bin/bash
+mongo --eval "db.dropDatabase()"
 mongorestore --drop
 # Kiểm tra kết quả lệnh mongorestore
 if [ $? -eq 0 ]; then
