@@ -14,8 +14,6 @@ services:
             - node_modules/
         - action: rebuild
           path: package.json
-    command:
-      - react-scripts start --host noroom113.com
     networks:
       - react-express
     depends_on:
