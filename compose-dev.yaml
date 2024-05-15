@@ -55,6 +55,8 @@ services:
       - express-mongo
     expose:
       - 27017
+    command:
+      - mongorestore --drop
   nginx:
     restart: always
     image: nginx:latest
