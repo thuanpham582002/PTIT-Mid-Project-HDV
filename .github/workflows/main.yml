@@ -23,3 +23,7 @@ jobs:
         run: |
           docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d --watch
 
+#          Only for test
+#          docker system prune --all --force
+#          docker compose --env-file ./config/.env.prod -f compose-prod.yaml up -d --watch --force-recreate
+
