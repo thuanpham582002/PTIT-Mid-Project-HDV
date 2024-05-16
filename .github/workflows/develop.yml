@@ -59,10 +59,6 @@ jobs:
           git add ./config/.env.dev
           git commit -m "Update submodule hashes for development"
           git push
-      - name: Build And Push Docker Images
-        if: steps.check_diff.outputs.env_diff == 'true'
-        run: |
-          docker compose --env-file ./config/.env.dev -f compose-dev.yaml build --push
   build:
     needs: [update_env_dev]
     runs-on: ubuntu-latest
