@@ -25,17 +25,16 @@ tự động quá trình deploy với mã nguồn từ github.
 - Sử dụng Docker Compose để quản lý các container.
 - Sử dụng Github Action để tự động hóa quá trình deploy.
 
-  [Flow](https://www.tldraw.com/r/LyEwlbODE8RT30s7PLzF3?v=-2796,-1630,9317,5071&p=CiaJ_rHQJhNAijCHXuGJe)
+[Flow](https://www.tldraw.com/r/LyEwlbODE8RT30s7PLzF3?v=-2796,-1630,9317,5071&p=CiaJ_rHQJhNAijCHXuGJe)
 
 ## Ngôn ngữ và Framework sử dụng
 - Frontend: ReactJs
 - Backend: Nodejs
 - Database: MongoDB
 - Reverse Proxy: Nginx
-- Triển khai: Docker
+- Triển khai: Docker, Docker compose.
 
 ## Tool Support
 - Github Action
-- Docker
+- Docker, Docker Compose
 - .....
-- ///q
