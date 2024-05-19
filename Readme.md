@@ -2,11 +2,6 @@
 Nhóm chủ đề migrate từ ứng dụng/hệ thống on-premise sang docker/kuberness,
 tự động quá trình deploy với mã nguồn từ github.
 
-## Thành viên
-- Nguyễn Thành Hưng - B20DCCN342
-- Phạm Tiến Thuận - B20DCCN678
-- Lê Quang Phúc - B20DCCN510
-
 ## Mô tả bài toán
 ### Bài toán 1 [Source](https://github.com/jnp2018/midproj-678510342/tree/main-spring)
 - REQ: Deploy & control version prod cho project microservice backend spring boot.
