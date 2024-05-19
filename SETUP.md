@@ -21,7 +21,7 @@ Project structure:
 └── README.md
 ```
 
-[_compose.yaml_](composetestttt.yaml)
+[_compose.yaml_](compose.yaml)
 ```
 services:
   frontend:
